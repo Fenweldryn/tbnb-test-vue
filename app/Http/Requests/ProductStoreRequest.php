@@ -24,11 +24,19 @@ class ProductStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
-            'slug' => ['required', 'string'],
-            'price' => ['required', 'numeric', 'between:-999999.99,999999.99'],
-            'quantity' => ['required', 'integer'],
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'products' => 'required|array',
+            'products.*.name' => 'required_with:products.*|min:3',
+            'products.*.price' => 'required_with:products.*|min:1',
+            'products.*.quantity' => 'required_with:products.*|min:1'
         ];
     }
+
+    // public function messages()
+    // {
+    //     return [
+    //         'products.*.name.required_with' => 'The name field is required if any field is filled for form *',
+    //         'products.*.price.required_with' => 'The price field is required if any field is filled for form *',
+    //         'products.*.quantity.required_with' => 'The quantity field is required if any field is filled for form *'
+    //     ];
+    // }
 }
