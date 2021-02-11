@@ -34,6 +34,7 @@ class Product extends Model
         'id' => 'integer',
         'price' => 'decimal:2',
         'user_id' => 'integer',
+        'created_at' => 'datetime:m/d/Y H:i:s'
     ];
 
     protected static $logFillable = true;

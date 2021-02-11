@@ -6,6 +6,7 @@ use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
 
 class ProductController extends Controller
 {
@@ -27,21 +28,31 @@ class ProductController extends Controller
 
     public function show(Request $request, Product $product)
     {
-        return view('product.show', compact('product'));
+        $logs = Activity::where('subject_id', $product->id)
+            ->where('subject_type', 'App\Models\Product')
+            ->orderBy('created_at', 'asc')
+            ->get();   
+
+        return response([
+            "product" => $product->toArray(),
+            "logs" => $logs
+        ]);
     }
 
     public function edit(Request $request, Product $product)
     {
-        return view('product.edit', compact('product'));
+        return response($product->toArray());
     }
 
     public function update(ProductUpdateRequest $request, Product $product)
-    {
-        $product->update($request->validated());
+    {        
+        $validated = $request->validated();
+        $product->name = $validated['name'];
+        $product->price = $validated['price'];
+        $product->quantity = $validated['quantity'];
+        $product->update();
 
-        $request->session()->flash('product.id', $product->id);
-
-        return redirect()->route('product.index');
+        return response('Product updated successfuly');
     }
 
 

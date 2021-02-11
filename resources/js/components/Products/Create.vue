@@ -88,7 +88,7 @@
                     }
                 })
                 .then(response => this.success = response.data)
-                .catch(error => {this.error = error.response;console.log(error.response)})
+                .catch(error => this.error = error.response)
             },
             addProductForm() {
                 this.products.push({});
