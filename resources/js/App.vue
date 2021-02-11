@@ -1,8 +1,8 @@
 <template>
-        <div class='flex-container'>
-            <router-view></router-view>
-            <Navbar></Navbar>
-        </div>
+    <div class='container'>
+        <Navbar></Navbar>
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>

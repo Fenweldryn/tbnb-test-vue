@@ -1,0 +1,17 @@
+created:
+    - app/Http/Controllers/ProductController.php
+    - database/factories/ProductFactory.php
+    - database/migrations/2021_02_10_182410_create_products_table.php
+    - app/Models/Product.php
+    - tests/Feature/Http/Controllers/ProductControllerTest.php
+    - app/Http/Requests/ProductStoreRequest.php
+    - app/Http/Requests/ProductUpdateRequest.php
+    - resources/views/product/index.blade.php
+    - resources/views/product/create.blade.php
+    - resources/views/product/show.blade.php
+    - resources/views/product/edit.blade.php
+updated:
+    - routes/web.php
+models:
+    Models\User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, two_factor_secret: 'text nullable', two_factor_recovery_codes: 'text nullable', remember_token: 'string:100 nullable', current_team_id: 'biginteger unsigned nullable', profile_photo_path: 'text nullable' }
+    Product: { name: string, slug: string, price: 'decimal:8,2', quantity: integer, user_id: 'foreign id' }

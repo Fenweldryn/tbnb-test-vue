@@ -14,12 +14,14 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faChevronLeft, faHome, faSearch, faBell, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import './app.css';
+import Button from './components/elements/Button.vue'
 
 library.add(faChevronLeft, faHome, faSearch, faBell, faUser)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('Navbar', Navbar)
 Vue.component('Loading', Loading)
+Vue.component('btn', Button)
 
 Vue.use(VueRouter)
 Vue.use(VueResizeText)

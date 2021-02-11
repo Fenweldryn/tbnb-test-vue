@@ -1,0 +1,14 @@
+models:
+  Product:
+    name: string
+    slug: string
+    price: decimal:8,2
+    quantity: integer
+    user_id: foreign id
+
+controllers:
+  Product:
+    resource
+
+seeder: Product
+

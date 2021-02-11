@@ -4,11 +4,11 @@ const routes = [
         name: 'index',
         component: require('../components/Index.vue').default
     },
-    {
-        path: '/home',
-        name: 'home',
-        redirectTo: '/products'
-    },
+    // {
+    //     path: '/home',
+    //     name: 'home',
+    //     redirectTo: '/products'
+    // },
 
     //#region PRODUCTS
     {
