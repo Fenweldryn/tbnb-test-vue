@@ -8,7 +8,7 @@
 
     <form class='flex flex-wrap md:mx-0 w-full' @submit.prevent="submit">        
             
-        <div v-if="success !== false" class="text-green-600 bg-white shadow-md rounded-md p-5 mb-5 w-1/2">
+        <div v-if="success !== false" class="text-green-600 bg-white shadow-md rounded-md p-5 mb-5 w-full md:w-1/2">
             <font-awesome-icon icon="check"/>
             <span class='text-lg font-bold'>{{ success }}</span></i>
         </div>  
@@ -46,13 +46,13 @@
             <div class="block w-full h-0"></div>
         </div>
 
-        <div class="md:w-1/2 mt-5 mb-5 flex flex-row-reverse space-x-3">   
+        <div class="md:w-1/2 mt-5 mb-5 flex flex-row-reverse">   
             <button type="submit" @click="scrollToTop"
-                class="disabled:cursor-not-allowed px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-white tracking-widest hover:bg-gray-900 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-50 transition ease-in-out duration-150 ">
+                class="disabled:cursor-not-allowed px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-white tracking-widest hover:bg-gray-900 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-50 transition ease-in-out duration-150 ml-3">
                 <font-awesome-icon icon="save"/> Save
             </button>  
             <button type="button" @click="addProductForm" 
-                class="px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-white tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                class="px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-white tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-3">
                 <font-awesome-icon icon="plus"/> Add More
             </button>  
             <router-link :to="{ name: 'products' }" class="px-4 py-2 border border-transparent bg-transparent text-gray-500 hover:text-black font-bold rounded-md">
@@ -85,7 +85,7 @@
                 this.error = false;
                 
                 axios.post('/api/products', {'products' : this.products})
-                .then(response => this.success = response.data)
+                .then(response => { this.success = response.data; this.products = [{}]})
                 .catch(error => this.error = error.response)
             },
             addProductForm() {
