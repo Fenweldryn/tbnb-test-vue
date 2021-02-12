@@ -24,7 +24,7 @@ class ProductController extends Controller
             }
         }
 
-        return response('Product(s) created successfuly');
+        return response('Product(s) created successfuly', 201);
     }
 
     public function show(Request $request, Product $product)

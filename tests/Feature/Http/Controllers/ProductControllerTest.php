@@ -2,179 +2,74 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Product;
+use Illuminate\Support\Str;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-/**
- * @see \App\Http\Controllers\ProductController
- */
 class ProductControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker;
 
-    /**
-     * @test
-     */
-    public function index_displays_view()
+    public function test_api_can_list_products()
     {
-        $products = Product::factory()->count(3)->create();
+        Product::factory()->count(3)->create();
 
-        $response = $this->get(route('product.index'));
-
-        $response->assertOk();
-        $response->assertViewIs('product.index');
-        $response->assertViewHas('products');
+        $this->getJson('/api/products')->assertStatus(200)->assertJsonCount(3);
     }
 
-
-    /**
-     * @test
-     */
-    public function create_displays_view()
+    public function test_api_returns_single_product()
     {
-        $response = $this->get(route('product.create'));
+        $product = Product::factory()->count(1)->create()->first();
 
-        $response->assertOk();
-        $response->assertViewIs('product.create');
+        $this->getJson(route('products.show', $product->slug))
+            ->assertStatus(200)
+            ->assertJson([
+                "product" => []
+            ]);
     }
 
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation()
+    public function test_api_returns_product_logs()
     {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\ProductController::class,
-            'store',
-            \App\Http\Requests\ProductStoreRequest::class
-        );
+        $product = Product::factory()->count(1)->create()->first();
+
+        $this->getJson(route('products.show', $product->slug))
+            ->assertStatus(200)
+            ->assertJson([
+                "logs" => []
+            ]);
     }
 
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects()
+    public function test_can_create_product()
     {
+        $products = [ "products" => Product::factory()->count(1)->make()->toArray() ];   
+
+        $this->postJson(route('products.store'), $products)->assertStatus(201);
+        $this->assertDatabaseHas('products', $products['products'][0]);
+    }
+
+    public function test_can_update_product()
+    {
+        $existingProduct = Product::factory()->count(1)->create()->first();
         $name = $this->faker->name;
-        $slug = $this->faker->slug;
-        $price = $this->faker->randomFloat(/** decimal_attributes **/);
-        $quantity = $this->faker->numberBetween(-10000, 10000);
-        $user = User::factory()->create();
-
-        $response = $this->post(route('product.store'), [
+        $productUpdate = [
             'name' => $name,
-            'slug' => $slug,
-            'price' => $price,
-            'quantity' => $quantity,
-            'user_id' => $user->id,
-        ]);
-
-        $products = Product::query()
-            ->where('name', $name)
-            ->where('slug', $slug)
-            ->where('price', $price)
-            ->where('quantity', $quantity)
-            ->where('user_id', $user->id)
-            ->get();
-        $this->assertCount(1, $products);
-        $product = $products->first();
-
-        $response->assertRedirect(route('product.index'));
-        $response->assertSessionHas('product.id', $product->id);
+            'slug' => Str::slug($name),
+            'price' => $this->faker->randomFloat(2, 0, 999999.99),
+            'quantity' => $this->faker->numberBetween(-10000, 10000),
+        ];
+        
+        $this->putJson(route('products.update', $existingProduct->slug), $productUpdate)->assertStatus(200);
+        $this->assertDatabaseHas('products', $productUpdate);
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view()
+    public function test_can_delete_product()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()->count(1)->create()->first();
 
-        $response = $this->get(route('product.show', $product));
-
-        $response->assertOk();
-        $response->assertViewIs('product.show');
-        $response->assertViewHas('product');
-    }
-
-
-    /**
-     * @test
-     */
-    public function edit_displays_view()
-    {
-        $product = Product::factory()->create();
-
-        $response = $this->get(route('product.edit', $product));
-
-        $response->assertOk();
-        $response->assertViewIs('product.edit');
-        $response->assertViewHas('product');
-    }
-
-
-    /**
-     * @test
-     */
-    public function update_uses_form_request_validation()
-    {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\ProductController::class,
-            'update',
-            \App\Http\Requests\ProductUpdateRequest::class
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function update_redirects()
-    {
-        $product = Product::factory()->create();
-        $name = $this->faker->name;
-        $slug = $this->faker->slug;
-        $price = $this->faker->randomFloat(/** decimal_attributes **/);
-        $quantity = $this->faker->numberBetween(-10000, 10000);
-        $user = User::factory()->create();
-
-        $response = $this->put(route('product.update', $product), [
-            'name' => $name,
-            'slug' => $slug,
-            'price' => $price,
-            'quantity' => $quantity,
-            'user_id' => $user->id,
-        ]);
-
-        $product->refresh();
-
-        $response->assertRedirect(route('product.index'));
-        $response->assertSessionHas('product.id', $product->id);
-
-        $this->assertEquals($name, $product->name);
-        $this->assertEquals($slug, $product->slug);
-        $this->assertEquals($price, $product->price);
-        $this->assertEquals($quantity, $product->quantity);
-        $this->assertEquals($user->id, $product->user_id);
-    }
-
-
-    /**
-     * @test
-     */
-    public function destroy_deletes_and_redirects()
-    {
-        $product = Product::factory()->create();
-
-        $response = $this->delete(route('product.destroy', $product));
-
-        $response->assertRedirect(route('product.index'));
-
-        $this->assertDeleted($product);
+        $this->deleteJson(route('products.destroy', $product->slug))->assertStatus(200);
+        $this->assertDatabaseMissing('products', $product->toArray());
     }
 }

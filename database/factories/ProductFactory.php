@@ -23,9 +23,10 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->name;
         return [
-            'name' => $this->faker->name,
-            'slug' => $this->faker->slug,
+            'name' => $name,
+            'slug' => Str::slug($name),
             'price' => $this->faker->randomFloat(2, 0, 999999.99),
             'quantity' => $this->faker->numberBetween(-10000, 10000),
             'user_id' => User::factory(),
