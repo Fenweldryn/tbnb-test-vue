@@ -6,7 +6,7 @@
         </h1>
     </div>
 
-    <form class='flex flex-wrap mx-5 md:mx-0' @submit.prevent="submit">        
+    <form class='flex flex-wrap md:mx-0 w-full' @submit.prevent="submit">        
             
         <div v-if="success !== false" class="text-green-600 bg-white shadow-md rounded-md p-5 mb-5 w-1/2">
             <font-awesome-icon icon="check"/>
@@ -23,7 +23,7 @@
         <div class="block w-full h-0"></div>
 
         <div v-for="(product, index) in products" :key="index" class="w-full">
-            <div class="my-1 shadow-md rounded-md bg-white p-5 mb-5 w-1/2">  
+            <div class="my-1 shadow-md rounded-md bg-white p-5 mb-5 md:w-1/2">  
               
                 <button v-if="index > 0" class='float-right mb-2' @click="removeProductForm(index)">
                     <font-awesome-icon icon="times"/>  
@@ -46,18 +46,18 @@
             <div class="block w-full h-0"></div>
         </div>
 
-        <div class="w-1/2 mt-5 text-right mb-5">   
-            <router-link :to="{ name: 'products' }" class="px-4 py-2 border border-transparent bg-transparent text-gray-500 hover:text-black font-bold rounded-md mr-3">
-                <font-awesome-icon icon="arrow-left"/> Back
-            </router-link>           
-            <button type="button" @click="addProductForm" 
-                class="mr-3 px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-white tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
-                <font-awesome-icon icon="plus"/> Add More
-            </button>    
+        <div class="md:w-1/2 mt-5 mb-5 flex flex-row-reverse space-x-3">   
             <button type="submit" @click="scrollToTop"
                 class="disabled:cursor-not-allowed px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-white tracking-widest hover:bg-gray-900 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-50 transition ease-in-out duration-150 ">
                 <font-awesome-icon icon="save"/> Save
             </button>  
+            <button type="button" @click="addProductForm" 
+                class="px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-white tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                <font-awesome-icon icon="plus"/> Add More
+            </button>  
+            <router-link :to="{ name: 'products' }" class="px-4 py-2 border border-transparent bg-transparent text-gray-500 hover:text-black font-bold rounded-md">
+                <font-awesome-icon icon="arrow-left"/> Back
+            </router-link>   
         </div>
     </form>
 </div>

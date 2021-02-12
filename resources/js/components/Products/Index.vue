@@ -16,16 +16,16 @@
             <li v-for="errorMessage in error.data.errors"> {{ errorMessage[0] }} </li>
         </ul>
     </div>  
-    <div class='pt-4 flex'>
+    <div class='pt-4 flex space-x-3'>
         <router-link
             :to="{ name: 'products.create' }"
-            class="mr-2 w-1/6 col-span-1 transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-blue-500 hover:bg-blue-600 focus-blue-700 focus:ring-blue-500">
+            class="w-1/2 md:w-1/6 col-span-1 transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-blue-500 hover:bg-blue-600 focus-blue-700 focus:ring-blue-500">
             <font-awesome-icon icon="plus"/>
             <span class="inline-block mr-2">New Product</span>
         </router-link> 
 
         <button @click="bulkEdit()" v-show="!isBulkEdit"
-            class="mr-2 w-1/6 col-span-1 transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-gray-500 hover:bg-gray-600 focus-gray-700 focus:ring-gray-500">
+            class="w-1/2 md:w-1/6 col-span-1 transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-gray-500 hover:bg-gray-600 focus-gray-700 focus:ring-gray-500">
             <font-awesome-icon icon="pencil-alt"/>
             <span class="inline-block mr-2">Bulk Edit</span>
         </button> 
@@ -42,26 +42,35 @@
         </button> 
     </div>
     <div class="py-4 flex justify-center">
-        <table class="w-full text-md bg-white shadow-md rounded mb-4">
+        <table class="w-full text-md bg-gray-200 md:bg-white md:shadow-md rounded mb-4 border-collapse">
             <thead>
                 <tr class="border-b">
-                    <th class="text-left p-3 px-5">Name</th>
-                    <th class="text-left p-3 px-5">Price</th>
-                    <th class="text-left p-3 px-5">Quantity</th>
+                    <th class="text-left p-3 px-5 hidden lg:table-cell">Name</th>
+                    <th class="text-left p-3 px-5 hidden lg:table-cell">Price</th>
+                    <th class="text-left p-3 px-5 hidden lg:table-cell">Quantity</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="product in products" :key="product.id" class="border-b hover:bg-orange-100 bg-gray-100">
-                    <td class="p-3 px-5" v-show="!isBulkEdit"> {{ product.name }} </td>
-                    <td class="p-3 px-5" v-show="!isBulkEdit"> {{ product.price }} </td>
-                    <td class="p-3 px-5" v-show="!isBulkEdit"> {{ product.quantity }} </td>
+                <tr v-for="product in products" :key="product.id" class="flex border-b hover:bg-orange-100 bg-gray-200 md:bg-white  lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-5">
+                    <td class="p-3 px-5 w-full lg:w-auto lg:table-cell relative lg:static bg-white text-center md:mt-3" v-show="!isBulkEdit"> 
+                        <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Name</span>
+                        {{ product.name }} 
+                    </td>
+                    <td class="p-3 px-5 w-full lg:w-auto lg:table-cell relative lg:static bg-white text-center md:mt-3" v-show="!isBulkEdit"> 
+                        <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Price</span>
+                        {{ product.price }} 
+                    </td>
+                    <td class="p-3 px-5 w-full lg:w-auto lg:table-cell relative lg:static bg-white text-center md:mt-3" v-show="!isBulkEdit"> 
+                        <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Quantity</span>
+                        {{ product.quantity }} 
+                    </td>
 
-                    <td class="p-3 px-5 " v-show="isBulkEdit"><input type="text" v-model.lazy="product.name" @change="changeProperty(product)" class="p-3 w-full"></td>
-                    <td class="p-3 px-5" v-show="isBulkEdit"><input type="text" v-model.lazy="product.price" @change="changeProperty(product)" class="p-3"></td>
-                    <td class="p-3 px-5" v-show="isBulkEdit"><input type="text" v-model.lazy="product.quantity" @change="changeProperty(product)" class="p-3"></td>     
+                    <td class="p-3 px-5 w-full lg:w-auto lg:table-cell relative lg:static bg-white text-center md:mt-3 " v-show="isBulkEdit"><input type="text" v-model.lazy="product.name" @change="changeProperty(product)" class="p-3 w-full"></td>
+                    <td class="p-3 px-5 w-full lg:w-auto lg:table-cell relative lg:static bg-white text-center md:mt-3" v-show="isBulkEdit"><input type="text" v-model.lazy="product.price" @change="changeProperty(product)" class="p-3"></td>
+                    <td class="p-3 px-5 w-full lg:w-auto lg:table-cell relative lg:static bg-white text-center md:mt-3" v-show="isBulkEdit"><input type="text" v-model.lazy="product.quantity" @change="changeProperty(product)" class="p-3"></td>     
 
-                    <td class="p-3 px-5 flex justify-end">
+                    <td class="p-3 px-5 w-full lg:w-auto lg:table-cell relative lg:static bg-white text-center md:mt-3 flex justify-end">
                         <router-link :to="{ name: 'products.show', params: {product: product.slug} }" type="button" class="mr-2 w-full transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-yellow-500 hover:bg-yellow-600 focus-yellow-700 focus:ring-yellow-500">
                             <font-awesome-icon icon="history"/>
                             History
