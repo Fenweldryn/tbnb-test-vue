@@ -50,6 +50,20 @@ class ProductControllerTest extends TestCase
         $this->assertDatabaseHas('products', $products['products'][0]);
     }
 
+    public function test_can_bulk_create_products()
+    {
+        $products = [ "products" => Product::factory()->count(3)->make()->toArray() ];   
+        
+        $this->postJson(route('products.store'), $products)->assertStatus(201);
+        foreach ($products['products'] as $product) {
+            $this->assertDatabaseHas('products', [
+                "name" => $product['name'],
+                "price" => $product['price'],
+                "quantity" => $product['quantity'],
+            ]);            
+        }
+    }
+
     public function test_can_update_product()
     {
         $existingProduct = Product::factory()->count(1)->create()->first();
@@ -63,6 +77,34 @@ class ProductControllerTest extends TestCase
         
         $this->putJson(route('products.update', $existingProduct->slug), $productUpdate)->assertStatus(200);
         $this->assertDatabaseHas('products', $productUpdate);
+    }
+
+    public function test_can_bulk_update_product()
+    {
+        $existingProducts = Product::factory()->count(3)->create();
+        $productsUpdate = [];
+        foreach ($existingProducts as $product) {
+            $name = $this->faker->name;
+            $productsUpdate[] = [
+                'id' => $product->id,
+                'name' => $name,
+                'slug' => Str::slug($name),
+                'price' => $this->faker->randomFloat(2, 0, 999999.99),
+                'quantity' => $this->faker->numberBetween(-10000, 10000),
+            ];
+            
+        }
+        
+        $this->putJson(route('products.bulk-update'), ['products' => $productsUpdate])
+            ->assertStatus(200);
+        foreach ($productsUpdate as $product) {
+            $this->assertDatabaseHas('products', [
+                'id' => $product['id'],
+                'name' => $product['name'],
+                'price' => $product['price'],
+                'quantity' => $product['quantity'],
+            ]);
+        }
     }
 
     public function test_can_delete_product()

@@ -23,5 +23,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // ], function(){
     // });
     
-Route::put('/products/bulk-update', [ProductController::class, 'bulkUpdate']);
+Route::put('/products/bulk-update', [ProductController::class, 'bulkUpdate'])->name('products.bulk-update');
 Route::resource('/products', ProductController::class);
