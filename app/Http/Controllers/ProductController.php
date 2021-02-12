@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductStoreRequest;
-use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Requests\ProductBulkUpdateRequest;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        return response(Product::orderBy('id', 'desc')->get()->toArray());
+        return response(Product::select('id','name','slug','price','quantity')->orderBy('id', 'desc')->get()->toArray());
     }
 
     public function store(ProductStoreRequest $request)
@@ -55,11 +56,26 @@ class ProductController extends Controller
         return response('Product updated successfuly');
     }
 
+    public function bulkUpdate(ProductBulkUpdateRequest $request)
+    {
+        foreach ($request->validated()['products'] as $changedProduct) {            
+            if (!empty($changedProduct)) {
+                $product = Product::find($changedProduct['id']);
+                $product->name = $changedProduct['name'];
+                $product->price = $changedProduct['price'];
+                $product->quantity = $changedProduct['quantity'];
+                $product->update();            
+            }
+        }
+
+        return response('Product(s) updated successfuly');
+    }
+
 
     public function destroy(Request $request, Product $product)
     {
         $product->delete();
 
-        return redirect()->route('product.index');
+        return response('Product deleted successfuly');
     }
 }

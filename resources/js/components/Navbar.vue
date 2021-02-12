@@ -1,20 +1,18 @@
 <template>
-    <div class="navbar">      
-        <router-link :to="{ name: 'home' }" tag='span' class='home'><font-awesome-icon icon="home" size="lg"/> </router-link>        
-
-        <router-link :to="{ name: 'search' }" tag='span' class='search'><font-awesome-icon icon="search" size="lg"/> </router-link>  
-
-        <router-link :to="{ name: 'notifications' }" tag='span' class='notification'><font-awesome-icon icon="bell" size="lg"/> </router-link>    
-
-        <router-link :to="{ name: 'user' }" tag='span' class='user'><font-awesome-icon icon="user" size="lg"/> </router-link>        
-    </div>
+    <nav class="bg-white px-8 pt-2 shadow-md mb-5" v-if="this.$route.name !== 'index'">
+        <div class="-mb-px flex">
+            <router-link :to="{ name: 'index' }" tag='button' class="no-underline uppercase tracking-wide font-bold text-xs py-3 mr-8">
+                Home
+            </router-link> 
+            <router-link :to="{ name: 'products' }" tag='button' class="no-underline uppercase tracking-wide font-bold text-xs py-3 mr-8">
+                Products
+            </router-link> 
+                      
+        </div>
+    </nav>
 </template>
 <script>
 export default {
-    props: ["active"],
-
-    mounted() {
-        // console.log('navbar mounted.')
-    }
+   
 }
 </script>

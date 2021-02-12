@@ -11,7 +11,7 @@
 
 </head>
 <body class='bg-gray-200 text-gray-900 container mx-auto'>
-<div id="app" class='mt-10'>
+<div id="app">
    <app></app>
 </div>
 <script src="{{ asset('js/app.js') }}"></script>

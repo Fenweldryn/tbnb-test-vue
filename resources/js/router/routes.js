@@ -2,7 +2,7 @@ const routes = [
     {
         path: '/',
         name: 'index',
-        component: require('../components/Index.vue').default
+        component: require('../components/Login.vue').default
     },
     // {
     //     path: '/home',

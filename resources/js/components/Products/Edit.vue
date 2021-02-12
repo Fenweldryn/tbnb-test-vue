@@ -79,11 +79,7 @@
             submit() {
                 this.success = false;
                 this.error = false;
-                axios.put('/api/products/'+this.product.slug, this.product, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
+                axios.put('/api/products/'+this.product.slug, this.product)
                 .then(response => this.success = response.data)
                 .catch(error => this.error = error.response)
             },
