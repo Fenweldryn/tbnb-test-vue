@@ -11,13 +11,13 @@ import VModal from 'vue-js-modal'
 import axios from 'axios'
 import 'vue-loading-overlay/dist/vue-loading.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faChevronLeft, faHome, faSearch, faBell, faUser, faPlus, faPencilAlt, faHistory, faTrash, faTimes, faCheck, faExclamationTriangle, faArrowLeft, faSave } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faHome, faSearch, faBell, faUser, faPlus, faPencilAlt, faHistory, faTrash, faTimes, faCheck, faExclamationTriangle, faArrowLeft, faSave, faSeedling } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import './app.css'
 import moment from 'moment'
 Vue.prototype.moment = moment
 
-library.add(faChevronLeft, faHome, faSearch, faBell, faUser, faPlus, faPencilAlt, faHistory, faTrash, faTimes, faCheck, faExclamationTriangle, faArrowLeft, faSave)
+library.add(faChevronLeft, faHome, faSearch, faBell, faUser, faPlus, faPencilAlt, faHistory, faTrash, faTimes, faCheck, faExclamationTriangle, faArrowLeft, faSave, faSeedling)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('Navbar', Navbar)

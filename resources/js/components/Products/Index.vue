@@ -34,7 +34,7 @@
             @click="seedProducts()" 
             v-show="!isBulkEdit"
             class="w-1/2 md:w-1/6 transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-pink-500 hover:bg-pink-600 focus-pink-700 focus:ring-pink-500">
-            <font-awesome-icon icon="pencil-alt"/>
+            <font-awesome-icon icon="seedling"/>
             <span class="inline-block mr-2">Seed Products</span>
         </button> 
 
@@ -135,7 +135,6 @@ export default {
             axios.get('/api/products').then(response => {
                 this.isLoading = false;
                 this.products = response.data;            
-                console.log(this.products);
             }).catch(error => this.error = error.response)
         },
         bulkEdit() {
@@ -156,7 +155,6 @@ export default {
             this.error = false
             this.changedProducts = this.changedProducts.filter(storedProduct => storedProduct.id !== product.id)
             this.changedProducts.push(product)
-            console.log(this.changedProducts)
         },
         deleteProduct(productToDelete) {
             if (confirm('Are you sure you want to delete?')) {                
@@ -168,8 +166,7 @@ export default {
         },
         seedProducts() {
             axios.get('/api/products/seed').then(response => {
-                console.log(response.data);          
-                success = "Database seeded successfully.";
+                this.success = "Database seeded successfully.";
                 this.getProducts();
             }).catch(error => this.error = error.response)
         }
