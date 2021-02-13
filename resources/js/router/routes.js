@@ -3,13 +3,8 @@ const routes = [
         path: '/',
         name: 'index',
         component: require('../components/Login.vue').default
-    },
-    // {
-    //     path: '/home',
-    //     name: 'home',
-    //     redirectTo: '/products'
-    // },
-
+    },   
+    
     //#region PRODUCTS
     {
         path: '/products/create',
@@ -30,9 +25,13 @@ const routes = [
         path: '/products/:product/edit',
         name: 'products.edit',
         component: require('../components/products/Edit.vue').default
-    },
+    },    
     //#endregion
 
+    {
+        path: '/:pathMatch(.*)*',
+        component: require('../components/PageNotFound.vue').default
+    },
 ];
 
 export default routes;

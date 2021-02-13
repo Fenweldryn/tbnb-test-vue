@@ -5,11 +5,11 @@
             Products
         </h1>
     </div>
-    <div v-if="success !== false" class="text-green-600 bg-white shadow-md rounded-md p-5 mb-5 w-full md:w-1/2 mt-2">
+    <div v-if="success !== false" class="text-green-600 bg-white shadow-md rounded-md p-5 mb-5 w-full mt-2">
         <font-awesome-icon icon="check"/>        
         <span class='text-lg font-bold'>{{ success }}</span></i>
     </div>  
-    <div v-if="error !== false" class="text-red-700 bg-white shadow-md rounded-md p-5 mb-5 w-full md:w-1/2 mt-2">
+    <div v-if="error !== false" class="text-red-700 bg-white shadow-md rounded-md p-5 mb-5 w-full mt-2">
         <font-awesome-icon icon="exclamation-triangle"/>        
         <span class='text-lg font-bold'>{{ error.data.message }}</span></i>       
     </div>  
@@ -28,6 +28,14 @@
             class="w-1/2 md:w-1/6 transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-gray-500 hover:bg-gray-600 focus-gray-700 focus:ring-gray-500">
             <font-awesome-icon icon="pencil-alt"/>
             <span class="inline-block mr-2">Bulk Edit</span>
+        </button> 
+
+        <button 
+            @click="seedProducts()" 
+            v-show="!isBulkEdit"
+            class="w-1/2 md:w-1/6 transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-pink-500 hover:bg-pink-600 focus-pink-700 focus:ring-pink-500">
+            <font-awesome-icon icon="pencil-alt"/>
+            <span class="inline-block mr-2">Seed Products</span>
         </button> 
 
         <button 
@@ -123,6 +131,7 @@ export default {
     },    
     methods: {
         getProducts() {
+            this.isLoading = true;
             axios.get('/api/products').then(response => {
                 this.isLoading = false;
                 this.products = response.data;            
@@ -152,10 +161,17 @@ export default {
         deleteProduct(productToDelete) {
             if (confirm('Are you sure you want to delete?')) {                
                 axios.delete('/api/products/'+productToDelete.slug)
-                    .then(response => {this.success = response.data; this.isBulkEdit = false})
+                    .then(response => this.success = response.data)
                     .catch(error => this.error = error.response)
                     .then(this.products = this.products.filter(product => product.id !== productToDelete.id))
             }
+        },
+        seedProducts() {
+            axios.get('/api/products/seed').then(response => {
+                console.log(response.data);          
+                success = "Database seeded successfully.";
+                this.getProducts();
+            }).catch(error => this.error = error.response)
         }
     }
 }

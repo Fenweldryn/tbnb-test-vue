@@ -63,7 +63,13 @@
             </div>
             <div v-else>
                 <div class="w-full bg-white p-5 shadow-md rounded-lg">
-                    <h3 class="font-semibold text-xl text-gray-800 leading-tight mb-3">No records found.</h3>
+                    <h3 class="font-semibold text-xl text-gray-800 leading-tight mb-3">
+                        No records found.
+                    </h3>
+                    <router-link class="px-4 transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-opacity-50 text-white py-2.5 rounded-md text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block bg-blue-500 hover:bg-blue-600 focus-blue-700 focus:ring-blue-500" :to="{ name: 'products.edit', params: {product: product.slug} }"> 
+                        <font-awesome-icon icon="pencil-alt"/>
+                        Make some changes
+                    </router-link>
                 </div>
             </div>
         </div>
