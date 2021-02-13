@@ -45,17 +45,17 @@
                         </h1>                 
                         <div class="mt-5">
                             <label>Name</label>
-                            <input class="form-input rounded-md shadow-sm mt-1 block w-full p-3 border-2" type="text" v-model="log.properties.attributes.name" disabled>
+                            <input class="form-input rounded-md shadow-sm mt-1 block w-full p-3 border-2" type="text" v-model="log.properties.old.name" disabled>
                         </div>
 
                         <div class="mt-5">
                             <label>Price</label>
-                            <input class="form-input rounded-md shadow-sm mt-1 block w-full p-3 border-2" type="text" v-model="log.properties.attributes.price" disabled>
+                            <input class="form-input rounded-md shadow-sm mt-1 block w-full p-3 border-2" type="text" v-model="log.properties.old.price" disabled>
                         </div>
 
                         <div class=" mt-5">
                             <label>Quantity</label>
-                            <input class="form-input rounded-md shadow-sm mt-1 block w-full p-3 border-2" type="text" v-model="log.properties.attributes.quantity" disabled>
+                            <input class="form-input rounded-md shadow-sm mt-1 block w-full p-3 border-2" type="text" v-model="log.properties.old.quantity" disabled>
                         </div>
                     </div>   
                     <div class="block w-full h-0"></div>                
