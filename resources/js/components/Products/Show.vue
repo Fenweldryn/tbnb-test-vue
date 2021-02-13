@@ -35,7 +35,7 @@
 
         <div class="flex-grow">        
             <h1 class="text-xl mb-3 ">
-                History
+                History ({{ logsSize }})
             </h1>    
             <div v-if="logsSize > 0">
                 <div v-for="log in logs" :key="log.id">
